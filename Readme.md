@@ -1,5 +1,5 @@
 ## Assignment 3a
-**Github Repo -** https://github.com/Chirag-Shilwant/Assignment-3A 
+**Github Repo -** https://github.com/Chirag-Shilwant/SSDAssignment3A
 ##### Question 1 :
 **Assumptions**
 1. Assumed that the input json file will form a valid n-ary tree
