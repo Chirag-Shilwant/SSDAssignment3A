@@ -1,4 +1,5 @@
 import string
+import sys
 
 monthDays = {
   1: 31,
@@ -41,15 +42,24 @@ monthMap = {
   "Dec": 12,
   "dec": 12
 }
+
 answer = []
 year = None
 month = None
 day = None
-
+formatDiya = False
 days = []
 mo = []
 yr = []
 
+inputStr = None
+n = len(sys.argv)
+
+if(n > 1):
+ inputStr = str(sys.argv[1][0])
+ formatDiya = True
+
+ 
 def getDays(d, m, y):
  year = y
  month = m
@@ -57,7 +67,8 @@ def getDays(d, m, y):
  n1 = 0	
  n1 = day + (year*365)
  #print(n1)
- for i in range(1, month): 
+ 
+ for i in range(1, month):
   n1 = n1 + monthDays[i] 
  #print(n1)
  
@@ -96,13 +107,20 @@ for line in file1:
  mo.append(m)
  
 file1.close()
-getDays(days[0], mo[0], yr[0])
-getDays(days[1], mo[1], yr[1])
- 
+
+if(inputStr == "d" or inputStr == "D" or formatDiya == False):
+ getDays(days[0], mo[0], yr[0])
+ getDays(days[1], mo[1], yr[1])
+
+else:
+  getDays(mo[0], days[0], yr[0])
+  getDays( mo[1], days[1], yr[1])
+
 #print(day)
 #print(mo)
 #print(yr)
 #print(answer[0], answer[1])
+
 finalAns = abs(answer[1] - answer[0]);
 #print(finalAns)
 
