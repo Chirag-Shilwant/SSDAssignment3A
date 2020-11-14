@@ -24,11 +24,12 @@ monthMap = {
 
 def takeInput(formatDiya):
  n = len(sys.argv)
-
+ inputStr = None
  if(n > 1):
   inputStr = str(sys.argv[1][0])
   formatDiya = True
-
+ return inputStr,formatDiya 
+ 
 def writeOutput(finalAns):
  file1 = open('output.txt', 'w')
  file1.write("Date Difference: ")
@@ -40,7 +41,7 @@ def writeOutput(finalAns):
 
  file1.close()   
 
-def calculateKar():
+def calculateKar(inputStr, formatDiya):
  if(inputStr == "d" or inputStr == "D" or formatDiya == False):
   getDays(days[0], mo[0], yr[0])
   getDays(days[1], mo[1], yr[1])
@@ -65,7 +66,7 @@ def getDays(d, m, y):
  n1 = n1 + int(year / 4) + int(year / 400)  - int(year / 100) 
  answer.append(n1)    
 
-def mainTask():
+def mainTask(inputStr, formatDiya):
  file1 = open('date_calculator.txt', 'r') 
  count = 0
 
@@ -95,11 +96,11 @@ def mainTask():
  
  file1.close()
 
- calculateKar() 
+ calculateKar(inputStr,formatDiya) 
 
  finalAns = abs(answer[1] - answer[0]);
  writeOutput(finalAns)
 
 if __name__=="__main__": 
- takeInput(formatDiya)
- mainTask()
+ inputStr,formatDiya = takeInput(formatDiya)
+ mainTask(inputStr, formatDiya)
