@@ -34,6 +34,114 @@ def checkDates(listFull):
  
  return False 
 
+
+def findSlothelp(hours, i):
+ while(i<len(Emp12Time)):
+   if(Emp12Time[i]==True):
+    strt = i
+    if(i!=0):
+     strt = i-1
+     
+    while(i<len(Emp12Time) and i-strt != hours and Emp12Time[i]==True):
+     i+=1
+    end = i 
+    
+    strt += 540
+    end += 540  
+   
+    if(end-strt == hours):
+     break
+     
+   else:
+    i+=1
+ return strt, end
+
+
+
+def checkPM(temp):
+ if(temp>12):
+  temp-=12   
+ return temp
+
+
+   
+def slotMila(strt, end, f):
+ temp  = int(strt/60)
+ temp = checkPM(temp)
+ 
+ strhr = str(temp)
+ strmin = str(strt%60)
+   
+ strhr = strhr + ":"
+ if(len(strmin)==1):
+  strhr += "00"
+ else:
+  strhr += strmin
+     
+ if(strhr[slice(2)] == "9:" or strhr[slice(2)] == "10" or strhr[slice(2)] == "11"):
+  strhr += "AM - "
+ else:
+  strhr += "PM - "
+ 
+ temp1 = int(end/60)
+ temp1 = checkPM(temp1)
+    
+ endhr = str(temp1)
+ endmin = str(end%60)
+   
+ endhr = endhr + ":"
+ if(len(endmin)==1):
+  endhr += "00"
+ else:
+  endhr += endmin
+    
+ if(endhr[slice(2)] == "9:" or endhr[slice(2)] == "10" or endhr[slice(2)] == "11"):
+  endhr += "AM"
+ else:
+  endhr += "PM" 
+  
+ final = {tarik : [strhr+endhr]}
+ simplejson.dump(final, f)
+ 
+ 
+    
+def calculateFirstFreeSlot(hours, f, i):
+ strt, end = findSlothelp(hours, 0)
+ if(end-strt == hours):
+  slotMila(strt, end, f) 
+ else:
+  f.write(str("Not Available\n"))
+ 
+ f.close() 
+
+
+# function to read input
+def takeInput(f):
+ hours = float(input(""))
+ f.write(str(str(hours)+" hour"))
+ hours = int(hours * 60) 
+ 
+ f.write("\n")
+ return hours
+ 
+ 
+ 
+# function to write output
+def writeOutput():
+ f = open('output3.txt', 'w')
+ f.write(str("Available\n"))
+ for i in range(0,len(allFreeSlots)):
+  f.write(str(str(keysEmp[i])+": ")) 
+  simplejson.dump(allFreeSlots[i], f)
+  f.write(str("\n"))
+
+ f.write(str("\n\nSlot: "))
+ 
+ hours = takeInput(f)
+ calculateFirstFreeSlot(hours, f, 0)
+  
+
+ 
 # -------------------------------------------ye list of list (allLists) bana raha hai-------------------------------- 
 for i in range(1,empNum+1):
  file = open("./Employee/Employee"+ str(i) + ".txt", "r")
@@ -43,7 +151,6 @@ for i in range(1,empNum+1):
  keyy1 = dictionary1.keys()
  file.close()
  Emp1 = []
- #Emp2 = []
  for v in value1:
   key1 = v.keys()
   val1 = v.values()
@@ -59,15 +166,13 @@ for i in range(1,empNum+1):
 
  allLists.append(Emp1)
 
-#print("All inputs")
-#print(allLists)
-
 
 
 #---------------------------------------check kar raha hai ki dates same hai ya nahi-------------------------------
 if(checkDates(allLists)):
  f = open('output3.txt', 'w')
  f.write(str("Dates Not Matching\n"))
+ f.close()
  
 
 else:
@@ -104,8 +209,7 @@ else:
     endEmp1.append(time[1:5])
    else:
     endEmp1.append(time[slice(5)]) 
- #print("emp1 ka endtime")       
- #print(endEmp1)
+
  
  #480 bool Emp1 ka
  for i in range(0, len(endEmp1)):
@@ -118,7 +222,7 @@ else:
   #print(minutesStrt, minutesEnd)
   for i in range(minutesStrt, minutesEnd+1):
    Emp1Time[i] = False
- #print(Emp1Time)
+
  
  #emp1 ka free slot in time format from 480 ka bool  
  i=0
@@ -174,10 +278,7 @@ else:
    i+=1
  
  allFreeSlots.append(freeEmp1)
- #print("emp1 ka free") 
- #print(freeEmp1) 
- #print("\n")
- 
+
  # ------------------------------------------------Loop started----------------------------------------------------
  for index in range(1, len(allLists)): 
   freeEmp2 = [] 
@@ -198,8 +299,7 @@ else:
      startEmp2.append(time[slice(4)])
     else:
      startEmp2.append(time)
-  #print("emp "+ str(index+1)+" ka start")     
-  #print(startEmp2)
+  
 
   #EmpIndex ka end
   for t in temp2:
@@ -214,9 +314,7 @@ else:
      endEmp2.append(time[1:5])
     else:
      endEmp2.append(time[slice(5)]) 
-  #print("emp " + str(index+1)+ " ka end")      
-  #print(endEmp2)
- 
+  
   #EmpIndex ka 480 ka bool
   for i in range(0, len(endEmp2)):
    time1 = startEmp2[i]
@@ -225,7 +323,7 @@ else:
    T2 = time2.replace(':', ':').split(':')
    minutesStrt = int(T1[0])*60 + int(T1[1]) - 540
    minutesEnd = int(T2[0])*60 + int(T2[1]) - 540
-   #print(minutesStrt, minutesEnd)
+   
    for i in range(minutesStrt, minutesEnd+1):
     Emp2Time[i] = False  
  
@@ -288,8 +386,7 @@ else:
     i+=1
  
   allFreeSlots.append(freeEmp2) 
-  #print("emp "+ str(index+1)+" ka free") 
-  #print(freeEmp2)
+  
  
  
  #------------------------------dono ke 480 ka intersection----------------------------------
@@ -304,9 +401,6 @@ else:
    i+=1 
  
   Emp1Time = Emp12Time  
-  #print("\n")
-  
-  
   
  i=0
  while(i<len(Emp12Time)):
@@ -359,88 +453,6 @@ else:
     
   else:
    i+=1
- 
- #allFreeSlots.append(freeEmp1) 
- #print("\n")
- #print("sab emp ka intersection")
- #for i in range(0, len(Emp12Time)):
-  #print(i,Emp12Time[i] ) 
- #print(freeEmp12) 
- 
- f = open('output3.txt', 'w')
- f.write(str("Available\n"))
- for i in range(0,len(allFreeSlots)):
-  f.write(str(str(keysEmp[i])+": ")) 
-  simplejson.dump(allFreeSlots[i], f)
-  f.write(str("\n"))
 
- f.write(str("\n\nSlot: "))
- 
- i=0
- hours = float(input(""))
- f.write(str(str(hours)+" hour"))
- hours = int(hours * 60) 
- 
- f.write("\n")
- while(i<len(Emp12Time)):
-  if(Emp12Time[i]==True):
-   if(i==0):
-    strt = i
-   else:
-    strt = i-1
-   while(i<len(Emp12Time) and i-strt != hours and Emp12Time[i]==True):
-    i+=1
-   end = i 
-   #print(strt,end)
-   strt += 540
-   end += 540  
-   
-   if(end-strt == hours):
-    #print(strt, end)
-    break
-  else:
-   i+=1
- 
- if(end-strt == hours):
-  temp  = int(strt/60)
-  if(temp>12):
-   temp-=12
-  strhr = str(temp)
-  strmin = str(strt%60)
-   
-  strhr = strhr + ":"
-  if(len(strmin)==1):
-   strhr += "00"
-  else:
-   strhr += strmin
-     
-  if(strhr[slice(2)] == "9:" or strhr[slice(2)] == "10" or strhr[slice(2)] == "11"):
-   strhr += "AM - "
-  else:
-   strhr += "PM - "
- 
-  temp1 = int(end/60)
-  if(temp1>12):
-   temp1-=12
-    
-  endhr = str(temp1)
-  endmin = str(end%60)
-   
-  endhr = endhr + ":"
-  if(len(endmin)==1):
-   endhr += "00"
-  else:
-   endhr += endmin
-    
-  if(endhr[slice(2)] == "9:" or endhr[slice(2)] == "10" or endhr[slice(2)] == "11"):
-   endhr += "AM"
-  else:
-   endhr += "PM" 
-  
-  final = {tarik : [strhr+endhr]}
-  simplejson.dump(final, f) 
- 
- else:
-  f.write(str("Not Available\n"))
- 
-f.close()
+if __name__=="__main__":
+ writeOutput()
