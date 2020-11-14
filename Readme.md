@@ -1,11 +1,12 @@
-# Assignment 3b
+# Assignment 3c
 
-**Note** - `In SSD part 3A, I had uploaded a zip file on Github. Hence I was not able to modify the existing .py files by creating a new branch. Hence after consulting a TA, I deleted my Old Repo of SSD part 3A and created a new repo of part 3A and used this new repo for creating a branch for PartB`.
-
-**New Github link for PartA -** https://github.com/Chirag-Shilwant/SSDAssignment3A/tree/main
+**Github link for PartA -** https://github.com/Chirag-Shilwant/SSDAssignment3A/tree/main
 
 **Github link for PartB -** https://github.com/Chirag-Shilwant/SSDAssignment3A/tree/PartB
+
+**Github link for PartC -** https://github.com/Chirag-Shilwant/SSDAssignment3A/tree/PartC
 ****
+
 ##### Question 1 :
 **Assumptions**
 1. Assumed that the input json file will form a valid n-ary tree
@@ -18,12 +19,12 @@
 2. After that took N inputs from user and calculated the lowest common ansector for each neighbouring input and stored the result of it in a list.
 3. Finally printed the common leader from the list (which has the lowest level) along with the difference in level between common leader with input1 and input2.
 
-**Lines Changed in PartA**
-- Line 8 - Added few data structures and variables
-- Line 9-18 - Modified the LCA to return the answer instead of printing it in the function itself
-- Line 35 - Stored the input in a list instead of variables
-- Line 48-74 - Modified the code to iterate it over the input list 
-- After Line 78 - Added a new logic to calculate the common leader and print the desired results.
+**Lines Changed in PartB**
+- Line 20-24 - Added a new function named equalLevel
+- Line 27-34 - Added this part of code inside a function named makeTree
+- Line 39-94 - Added this part of code in a function named main
+- Line 94-108 - Added the print final result logic inside a new function named printResult
+- Line 109 - Added the  if _ name _ == “_main_” statement to call main function
 
 ****
 ##### Question 2 :
@@ -48,16 +49,18 @@
 4. Finally subtracted both dates to get the final result
 5. Wrote the output in a file named **output.txt** 
 
-**Lines Changed in PartA**
-- Line 2 - Imported `sys` for command line input
-- Line 48 - Added a boolean variable 
-- Line 52 - Added the code to input command line argument
-- Line 99 - Modified the function calls depending on the format of input in command line
+**Lines Changed in PartB**
+- Line 4-44 - Shifted this part of code below
+- Line 56-60 - Added this portion of code in a function named takeInput
+- Line 61 - Defined 2 functions named writeOutput and calculateKar
+- Line 82-109 - Added this portion of code in a function named mainTask
+- Line 111-117 - Added this portion of code in a function named calculateKar
+- Line 127-135 - Added this portion of code in a function named writeOutput
 
 ****
 ##### Question 3 :
 **Assumptions**
-1.  Assumed single employee and single date in all Employeei.txt files (where i=1,2...n)
+1.  Assumed single employee and single date in all Employee`i`.txt files (where i=1,2...n)
 2.  Assumed output file with name as **output3.txt**
 3.  Assumed that all the input files (Employee1.txt, Employee2.txt, ..... ) in a directory named **Employee**. This directory must only contain input files of the above mentioned format.
 
@@ -69,12 +72,16 @@
 5. If the dates are same then wrote the Available time list and input slot durationin the output file. Then traversed the boolean array of intersection of all Employees simultaneously and calculated the first free slot equal to the slot input.
 6. If we found the slot we add it to the output file in the form of dictionary with key as Date and value as the first free slot. If not free slot found we write "No Match" in the output file(i.e output3.txt)
 
-**Lines Changed in PartA**
-- Line 1 - Imported `fnmatch` and `os` for calculating the number of .txt files in Employee directory
-- Line 4 - Moved the code below and iterated it over all the input files in Employee directory
-- Line 24 - Added few data structures such as lists
-- Line 49 - Added a function checkDates which checks similarity in all the dates from all the input files
-- Line 62 - Extracted the date and busylist for each employee in the form of list and appended it to another list
-- Line 70 to 126 - Modified the code to iterate it over all employees busy list and calculate the intersection of the free times for all the employees
-- Line 267 - Changed the write format to print freeSlots of all Employees by iterating over the extracted input list
-- Line 280 to 337 - Modifed the code to calculate first Free slot from the boolean array founded by intersection of boolean array of all employees
+**Lines Changed in PartB**
+- Line 36 - Defined few functions named takeInput, findSlothelp, slotMila, writeOutput and calculateFirstFreeSlot
+- Line 380-382 - Added this portion of code in a function named takeInput
+- Line 385-402 - Added this portion of code in a function named findSlothelp
+- Line 370-384 - Added this portion of code in a function named writeOutput
+- Line 404-441 - Added this portion of code in a function named slotMila
+- Line 406 and 423 - Added this portion of code in a function named checkPM
+- Line 403 and 443 - Added this line code in a function named calculateFirstFreeSlot
+- Line 447 - Added the  if _ name _ == “_main_” statement to call writeOutput function
+
+### Final Complexity of all 3 codes
+
+![finalComplexity](https://user-images.githubusercontent.com/48115585/99146012-f825a300-2699-11eb-847e-15978b450e9f.png)
